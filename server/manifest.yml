@@ -1,11 +1,11 @@
   applications:
-  - name: djangoapp
+  - name: erfer-car-dealer
     routes:
-      - route: $HOST.$DOMAIN
+      - route: erfer.eu-gb.mybluemix.net
     memory: 128M
     buildpack: python_buildpack
-  - name: djangoapp-nginx
+  - name: erfer-car-dealer-nginx
     routes:
-      - route: $HOST.$DOMAIN/static
+      - route: erfer.eu-gb.mybluemix.net/static
     memory: 128M
     buildpack: staticfile_buildpack
