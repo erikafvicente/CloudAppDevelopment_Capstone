@@ -114,18 +114,18 @@ def add_review(request, dealer_id):
         return render(request, 'djangoapp/add_review.html', context)
         
     elif request.method == 'POST':
-        url = "https://eu-gb.functions.appdomain.cloud/api/v1/web/erikaferreiravicente%40gmail.com_djangoserver-space/capstone_project/get_all_reviews"
+        url = "https://eu-gb.functions.appdomain.cloud/api/v1/web/erikaferreiravicente%40gmail.com_djangoserver-space/capstone_project/post_reviews"
         if (request.user.is_authenticated):
             review = dict()
             review["id"]=0
-            review["name"]=request.POST["name"]
+            review["name"]=request.user.first_name + " " + request.user.last_name
             review["dealership"]=dealer_id
             review["review"]=request.POST["content"]
-            if ("purchasecheck" in request.POST):
+            if ("purchase_check" in request.POST):
                 review["purchase"]=True
             else:
                 review["purchase"]=False
-            print(request.POST["car"])
+
             if review["purchase"] == True:
                 car_parts=request.POST["car"].split("|")
                 review["purchase_date"]=request.POST["purchase_date"] 
@@ -138,7 +138,10 @@ def add_review(request, dealer_id):
                 review["car_make"]=None
                 review["car_model"]=None
                 review["car_year"]=None
-            json_result = post_request(url, review, dealerId=dealer_id)
+
+            result = dict()
+            result["review"]=review
+            json_result = post_request(url, result, dealerId=dealer_id)
 
             if "error" in json_result:
                 context["message"] = "ERROR: Review was not submitted."
